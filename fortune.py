@@ -1,4 +1,5 @@
-import pygame, sys, os, pygame.mixer, pygame.font
+import pygame, pygame.mixer, pygame.font, pygame.time
+import sys, os
 from pygame.locals import *
 from random import choice
 
@@ -21,6 +22,7 @@ mystic = pygame.mixer.music.load('mystic.mp3')
 playing = 0
 bg = pygame.transform.scale(bg, size)
 SONG_END = pygame.USEREVENT + 1
+RESET_TIMER = pygame.USEREVENT + 2
 pygame.mixer.music.set_endevent(SONG_END)
 screen.blit(bg, (0, 0))
 pygame.display.update()
@@ -33,7 +35,7 @@ messages = [
     'It is certain',
 	'It is decidedly so',
 	'Without a doubt',
-	'Yes – definitely',
+	'Yes - definitely',
 	'You may rely on it',
 	'As I see it, yes',
 	'Most likely',
@@ -45,7 +47,7 @@ messages = [
 	'Better not tell you now',
 	'Cannot predict now',
 	'Concentrate and ask again',
-	"Don't count on it",
+	'Don\'t count on it',
 	'My reply is no',
 	'My sources say no',
 	'Outlook not so good',
@@ -80,6 +82,10 @@ def input(events):
             playing = 0;
             screen.blit(bg, (0, 0))
             printText(choice(messages), 'Times New Roman', 30, 0, 0, white)    
+            pygame.time.set_timer(RESET_TIMER, 5000)
+        elif event.type == RESET_TIMER:
+        	pygame.time.set_timer(RESET_TIMER, 0)    
+        	screen.blit(bg, (0, 0))
         elif event.type == pygame.KEYDOWN and event.key == K_ESCAPE:
             print "------------------------------------\nGoodbye!\n"
             sys.exit(0)
